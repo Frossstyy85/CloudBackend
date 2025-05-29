@@ -5,19 +5,31 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: build image
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: 'maven'
+
+      - name: Build JAR with Maven Wrapper
+        run: ./mvnw clean package
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: abysser85
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build Docker image
         run: docker build -t abysser85/cloud-backend:latest .
 
-      - name: push image
-        run: |
-          docker login -u abysser85 -p ${{ secrets.DOCKER_TOKEN }}
-          docker push abysser85/cloud-backend:latest
+      - name: Push Docker image
+        run: docker push abysser85/cloud-backend:latest
