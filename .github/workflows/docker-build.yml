@@ -26,7 +26,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: abysser85
-          password: ${{ secrets.DOCKER_TOKEN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
         run: docker build -t abysser85/cloud-backend:latest .
