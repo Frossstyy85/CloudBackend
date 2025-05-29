@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: build image
+        run: docker build -t abysser85/cloud-backend:latest .
+
+      - name: push image
+        run: |
+          docker login -u abysser85 -p ${{ secrets.DOCKER_TOKEN }}
+          docker push abysser85/cloud-backend:latest
