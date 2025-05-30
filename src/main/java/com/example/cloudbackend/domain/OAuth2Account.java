@@ -9,6 +9,9 @@ public class OAuth2Account {
     private Long id;
 
     private String email;
+
+    @Enumerated(EnumType.STRING)
+
     private Provider provider;
     private String providerId;
 

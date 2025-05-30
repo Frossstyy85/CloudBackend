@@ -19,10 +19,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private static final Logger log = LoggerFactory.getLogger(CustomOAuth2UserService.class);
     private final OAuth2AccountRepository oAuth2AccountRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public CustomOAuth2UserService(OAuth2AccountRepository oAuth2AccountRepository, UserRepository userRepository) {
+    public CustomOAuth2UserService(OAuth2AccountRepository oAuth2AccountRepository, UserRepository userRepository, UserService userService) {
         this.oAuth2AccountRepository = oAuth2AccountRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -32,9 +34,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String email = switch (provider) {
             case DISCORD -> oAuth2User.getAttribute("github");
-            case GITHUB -> oAuth2User.getAttribute("");
+            case GITHUB -> oAuth2User.getAttribute("email");
             default -> null;
         };
+
 
         String name = switch (provider) {
             case DISCORD -> oAuth2User.getAttribute("name");
@@ -42,23 +45,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             default -> null;
         };
 
-        String providerId = switch (provider) {
-            case GITHUB, DISCORD -> Integer.toString(oAuth2User.getAttribute("id"));
-            default -> null;
-        };
 
-        User user = oAuth2AccountRepository.findByProviderId(providerId)
-                .map(OAuth2Account::getUser)
-                .orElseGet(() -> userRepository.findByEmail(email)
-                        .map(existingUser -> userRepository.save(
-                                existingUser.linkOAuthAccount(
-                                        new OAuth2Account(email, provider, providerId, existingUser))))
-                        .orElseGet(() -> {
-                            User newUser = new User(name, email);
-                            return userRepository.save(
-                                    newUser.linkOAuthAccount(
-                                            new OAuth2Account(email, provider, providerId, newUser)));
-                        }));
+        String providerId = oAuth2User.getAttribute("id").toString();
+
+        OAuth2Info info = new OAuth2Info(name, email, provider, providerId);
+        User user = userService.findByInfo(info);
+
+
+
+
+
 
 
 
