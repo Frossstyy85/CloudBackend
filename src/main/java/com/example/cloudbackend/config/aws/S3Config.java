@@ -21,7 +21,6 @@ public class S3Config {
         SECRET_KEY = secretKey;
     }
 
-
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()

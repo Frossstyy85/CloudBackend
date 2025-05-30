@@ -19,6 +19,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+
   security:
     oauth2:
       client:
@@ -52,7 +53,7 @@ spring:
 
 logging:
   level:
-    org.springframework: info
+    root: info
 
 aws:
   access:

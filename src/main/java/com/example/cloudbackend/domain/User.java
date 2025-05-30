@@ -1,37 +1,68 @@
-        package com.example.cloudbackend.domain;
+package com.example.cloudbackend.domain;
 
-        import jakarta.persistence.*;
-        import lombok.*;
+import jakarta.persistence.*;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-        @Entity
-        @Getter
-        @Setter
-        @Builder
-        @NoArgsConstructor
-        @AllArgsConstructor
-        @ToString
-        @Table(name = "users")
-        public class User {
+@Entity
+@Table(name = "users")
+public class User {
 
-            @Id
-            @GeneratedValue
-            private Long id;
+    public User(){}
 
-            private String name;
-            private String email;
+    public User(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
 
-            @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-            @Builder.Default
-            private List<OAuthAccount> linkedAccounts = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-            public void addOAuthAccount(OAuthAccount account){
-                linkedAccounts.add(account);
-                account.setUser(this);
+    private String name;
+    private String email;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<OAuth2Account> linkedAccounts = new ArrayList<>();
+
+    public List<OAuth2Account> getLinkedAccounts() {
+        return linkedAccounts;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public User linkOAuthAccount(OAuth2Account newAccount){
+        boolean alreadyLinked = linkedAccounts.stream()
+                .anyMatch(account -> account.getProvider().equals(newAccount.getProvider()));
+        if (!alreadyLinked)
+            linkedAccounts.add(newAccount);
+        return this;
+    }
+
+    public void unlinkOAuthAccount(Provider provider){
+        Iterator<OAuth2Account> iterator = linkedAccounts.iterator();
+        while (iterator.hasNext()){
+            var account = iterator.next();
+            if (account.getProvider().equals(provider)){
+                iterator.remove();
+                break;
             }
-
-
-
         }
+    }
+
+
+
+
+}

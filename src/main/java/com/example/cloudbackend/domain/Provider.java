@@ -1,28 +1,28 @@
 package com.example.cloudbackend.domain;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.example.cloudbackend.exception.ProviderNotFoundException;
+
+import java.util.Optional;
 
 public enum Provider {
 
+    GITHUB,
     GOOGLE,
-    DISCORD,
-    GITHUB;
+    DISCORD;
 
-    private static final Map<String, Provider> lookup = Arrays.stream(values())
-            .collect(Collectors.toUnmodifiableMap(
-                    Provider::name,
-                    p -> p
-            ));
-
-    public static Provider findProvider(String s){
-        if (s == null) return null;
-        Provider provider = lookup.get(s.toUpperCase());
-        if (provider == null)
-            throw new RuntimeException("No provider found for " + s);
-        return provider;
+    public static Provider findProvider(String providerName){
+        return Optional.ofNullable(providerName)
+                .map(String::toUpperCase)
+                .map(name -> {
+                    try {
+                        return Provider.valueOf(name);
+                    } catch (IllegalArgumentException e) {
+                        throw new ProviderNotFoundException(providerName);
+                    }
+                })
+                .orElseThrow(() -> new ProviderNotFoundException("null"));
     }
+
 
 
 }
