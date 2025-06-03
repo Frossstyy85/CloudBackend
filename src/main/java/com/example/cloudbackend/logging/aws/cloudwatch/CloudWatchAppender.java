@@ -7,12 +7,14 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
 
     private CloudWatchLogger logger;
 
-    public CloudWatchAppender(){
+    public CloudWatchAppender() {
     }
 
     @Override
     protected void append(ILoggingEvent event) {
-        logger.log(event.getMessage(), event.getTimeStamp());
+        String level = event.getLevel().toString();
+        String message = String.format("[%s] %s", level, event.getFormattedMessage());
+        logger.log(message, event.getTimeStamp());
     }
 
     @Override
@@ -25,10 +27,4 @@ public class CloudWatchAppender extends AppenderBase<ILoggingEvent> {
     public void stop() {
         super.stop();
     }
-
-
-
-
-
-
 }

@@ -19,12 +19,10 @@ public class CustomOidcUserService extends OidcUserService {
 
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidc = super.loadUser(userRequest);
-        Provider provider = Provider.findProvider(userRequest.getClientRegistration().getRegistrationId());
+        Provider provider = Provider.fromString(userRequest.getClientRegistration().getRegistrationId());
         OAuth2Info info = new OAuth2Info(oidc.getName(), oidc.getEmail(), provider, oidc.getSubject());
         User user = userService.findByInfo(info);
 
         return null;
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.cloudbackend.service;
 
-import com.example.cloudbackend.domain.OAuth2Account;
 import com.example.cloudbackend.domain.Provider;
 import com.example.cloudbackend.domain.User;
 import com.example.cloudbackend.repository.OAuth2AccountRepository;
@@ -29,7 +28,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        Provider provider = Provider.findProvider(userRequest.getClientRegistration().getRegistrationId());
+        Provider provider = Provider.fromString(userRequest.getClientRegistration().getRegistrationId());
         log.info("Provider found: {}", provider.toString());
 
         String email = switch (provider) {
@@ -38,25 +37,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             default -> null;
         };
 
-
         String name = switch (provider) {
             case DISCORD -> oAuth2User.getAttribute("name");
             case GITHUB -> oAuth2User.getAttribute("login");
             default -> null;
         };
 
-
         String providerId = oAuth2User.getAttribute("id").toString();
 
         OAuth2Info info = new OAuth2Info(name, email, provider, providerId);
         User user = userService.findByInfo(info);
-
-
-
-
-
-
-
 
         return oAuth2User;
     }

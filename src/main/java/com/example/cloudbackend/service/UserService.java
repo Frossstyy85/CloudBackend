@@ -6,7 +6,6 @@ import com.example.cloudbackend.repository.OAuth2AccountRepository;
 import com.example.cloudbackend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,7 @@ public class UserService {
     }
 
     public User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityContextHolder.getContext().getAuthentication();
         return new User("test", "test@gmail.com");
     }
 
@@ -42,7 +41,6 @@ public class UserService {
     private User handleFirstTimeLogin(OAuth2Info info) {
         User user = getOrCreateUser(info);
         System.out.println("hello");
-
         return linkExternalAccount(user, info);
     }
 
@@ -65,6 +63,4 @@ public class UserService {
         log.info("Saving user to database: {}", user);
         return userRepository.save(user);
     }
-
-
 }
