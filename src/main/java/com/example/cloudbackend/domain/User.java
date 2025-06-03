@@ -51,7 +51,7 @@ public class User {
         return this;
     }
 
-    public void unlinkOAuthAccount(Provider provider){
+    public User unlinkOAuthAccount(Provider provider){
         Iterator<OAuth2Account> iterator = linkedAccounts.iterator();
         while (iterator.hasNext()){
             var account = iterator.next();
@@ -60,6 +60,7 @@ public class User {
                 break;
             }
         }
+        return this;
     }
 
 

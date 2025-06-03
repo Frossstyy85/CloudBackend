@@ -13,7 +13,7 @@
 //import java.nio.file.Path;
 //import java.nio.file.Paths;
 //import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;  
+//import java.time.format.DateTimeFormatter;
 //
 //@Component
 //public class S3Uploader {
@@ -29,7 +29,7 @@
 //        this.s3Client = s3Client;
 //    }
 //
-//    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "0 3 0 * * ?")
 //    public void upload(){
 //        Path filePath = Paths.get("logs" + fileName);
 //

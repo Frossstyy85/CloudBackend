@@ -44,4 +44,18 @@ public class OAuth2Account {
     }
 
 
+    @Override
+    public String toString() {
+        return "OAuth2Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", provider=" + provider +
+                ", providerId='" + providerId + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+
+
+
 }
