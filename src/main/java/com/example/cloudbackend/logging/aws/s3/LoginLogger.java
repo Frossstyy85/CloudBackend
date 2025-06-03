@@ -1,4 +1,4 @@
-package com.example.cloudbackend.common;
+package com.example.cloudbackend.logging.aws.s3;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +7,9 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 import org.springframework.stereotype.Component;
 
 @Component
-
 public class LoginLogger {
 
-    private static final Logger loginLogger = LoggerFactory.getLogger(LoginLogger.class);
+    private static final Logger loginLogger = LoggerFactory.getLogger("login-logger");
 
     @EventListener
     public void log(AuthenticationSuccessEvent event) {

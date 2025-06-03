@@ -4,12 +4,17 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
 
-    <appender name="CLOUDWATCH" class="com.example.cloudbackend.common.CloudWatchAppender"/>
+    <appender name="CLOUDWATCH" class="com.example.cloudbackend.logging.aws.cloudwatch.CloudWatchAppender"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="CLOUDWATCH"/>
     </root>
+
+    <logger name="login-logger">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
 
 
 </configuration>
