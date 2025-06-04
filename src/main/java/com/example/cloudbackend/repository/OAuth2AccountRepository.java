@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface    OAuth2AccountRepository extends JpaRepository<OAuth2Account, Long> {
+public interface OAuth2AccountRepository extends JpaRepository<OAuth2Account, Long> {
     Optional<OAuth2Account> findByProviderId(String providerId);
 }

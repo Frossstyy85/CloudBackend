@@ -1,12 +1,16 @@
 package com.example.cloudbackend.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class OAuth2Account {
-
-    public OAuth2Account(){}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,13 +26,6 @@ public class OAuth2Account {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    public User getUser(){
-        return user;
-    }
-
-    public Provider getProvider(){
-        return provider;
-    }
 
     public OAuth2Account(String email, Provider provider, String providerId, User user) {
         this.email = email;

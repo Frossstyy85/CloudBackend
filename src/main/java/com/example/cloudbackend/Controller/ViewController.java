@@ -3,6 +3,8 @@ package com.example.cloudbackend.Controller;
 
 import com.example.cloudbackend.domain.User;
 import com.example.cloudbackend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +27,11 @@ public class ViewController {
     }
 
     @GetMapping("/profile")
-    public String profile(Model model){
-        User user = userService.getAuthenticatedUser();
+    public String profile(Model model, HttpServletRequest request, HttpServletResponse response){
+        User user = userService.getAuthenticatedUser(request, response);
+
         model.addAttribute("user", user);
+
         return "profile";
     }
 

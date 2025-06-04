@@ -2,8 +2,8 @@ package com.example.cloudbackend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +13,8 @@ import software.amazon.awssdk.services.cloudwatchlogs.model.*;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
+
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -35,46 +35,43 @@ public class AwsIntegrationTest {
     @Value("${aws.bucket.name}")
     private String bucketName;
 
-    @Test
-    public void testClientConnection(){
-        assertThat(s3Client).isNotNull();
-        assertThat(cloudWatchClient).isNotNull();
-    }
 
     @Test
-    public void s3BucketTest(){
+    public void s3BucketTest() {
+        assertThat(s3Client).isNotNull();
+
         ListBucketsResponse response = s3Client.listBuckets();
         List<Bucket> buckets = response.buckets();
         assertThat(buckets)
                 .extracting(Bucket::name)
                 .contains(bucketName);
-
     }
 
+
+
     @Test
-    public void cloudWatchGroupTest(){
+    public void cloudWatchTest() {
+        assertThat(cloudWatchClient).isNotNull();
 
         DescribeLogGroupsResponse response = cloudWatchClient.describeLogGroups();
+        List<LogGroup> logGroups = response.logGroups();
 
-        assertThat(response.logGroups())
+        assertThat(logGroups)
                 .extracting(LogGroup::logGroupName)
                 .contains(logGroupName);
-    }
 
-    @Test
-    public void cloudWatchStreamTest(){
-        DescribeLogStreamsResponse response = cloudWatchClient.describeLogStreams(
+        DescribeLogStreamsResponse streamsResponse = cloudWatchClient.describeLogStreams(
                 DescribeLogStreamsRequest.builder()
                         .logGroupName(logGroupName)
                         .logStreamNamePrefix(logStreamName)
                         .build()
         );
+        List<LogStream> logStreams = streamsResponse.logStreams();
 
-        assertThat(response.logStreams())
+        assertThat(logStreams)
                 .extracting(LogStream::logStreamName)
                 .contains(logStreamName);
     }
-
 
 
 

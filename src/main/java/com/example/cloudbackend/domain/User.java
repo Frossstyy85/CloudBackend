@@ -1,6 +1,9 @@
 package com.example.cloudbackend.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,11 +11,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
-    public User(){
-
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,14 +23,6 @@ public class User {
 
     private String name;
     private String email;
-
-    public String getEmail(){
-        return email;
-    }
-
-    public String name(){
-        return name;
-    }
 
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -51,6 +46,7 @@ public class User {
         return this;
     }
 
+    @Deprecated
     public User unlinkOAuthAccount(Provider provider) {
         Iterator<OAuth2Account> iterator = linkedAccounts.iterator();
         while (iterator.hasNext()) {
@@ -62,4 +58,6 @@ public class User {
         }
         return this;
     }
+
+
 }

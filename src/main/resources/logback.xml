@@ -12,8 +12,8 @@
         </encoder>
     </appender>
 
-    <appender name="CloudWatch" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/app.log</file>
+    <appender name="RollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/login.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/log_%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -24,14 +24,20 @@
         </encoder>
     </appender>
 
+    <appender name="CLOUDWATCH" class="com.example.cloudbackend.logging.aws.cloudwatch.AppenderDelegator">
+
+    </appender>
+
+    <logger name="login-logger" additivity="false">
+        <appender-ref ref="RollingFileAppender"/>
+    </logger>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="CLOUDWATCH"/>
     </root>
 
-    <logger name="login-logger">
-        <appender-ref ref="CloudWatch"/>
-    </logger>
+
 
 
 </configuration>

@@ -1,6 +1,7 @@
 package com.example.cloudbackend.logging.aws.s3;
 
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Slf4j
 @Component
 public class S3Uploader {
 
@@ -29,13 +31,10 @@ public class S3Uploader {
         this.s3Client = s3Client;
     }
 
-    private Logger log = LoggerFactory.getLogger(S3Uploader.class);
-
 
     public void upload(){
 
-//        String fileName = "logs/log_" + LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".log";
-        String fileName = "logs/app.log";
+        String fileName = "logs/log_" + LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".log";
         log.info(fileName);
 
         Path filePath = Paths.get(fileName);
@@ -63,5 +62,5 @@ public class S3Uploader {
     }
 
 
-}
 
+}
