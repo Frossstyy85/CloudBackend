@@ -10,11 +10,8 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-    public User(){}
+    public User(){
 
-    public User(String name, String email){
-        this.name = name;
-        this.email = email;
     }
 
     @Id
@@ -24,45 +21,45 @@ public class User {
     private String name;
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OAuth2Account> linkedAccounts = new ArrayList<>();
-
-    public List<OAuth2Account> getLinkedAccounts() {
-        return linkedAccounts;
-    }
-
-    public String getEmail() {
+    public String getEmail(){
         return email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
+    public String name(){
         return name;
     }
 
-    public User linkOAuthAccount(OAuth2Account newAccount){
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private final List<OAuth2Account> linkedAccounts = new ArrayList<>();
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public User linkOAuthAccount(OAuth2Account newAccount) {
         boolean alreadyLinked = linkedAccounts.stream()
                 .anyMatch(account -> account.getProvider().equals(newAccount.getProvider()));
-        if (!alreadyLinked)
+        if (!alreadyLinked) {
             linkedAccounts.add(newAccount);
+        }
         return this;
     }
 
-    public User unlinkOAuthAccount(Provider provider){
+    public User unlinkOAuthAccount(Provider provider) {
         Iterator<OAuth2Account> iterator = linkedAccounts.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             var account = iterator.next();
-            if (account.getProvider().equals(provider)){
+            if (account.getProvider().equals(provider)) {
                 iterator.remove();
                 break;
             }
         }
         return this;
     }
-
-
-
 }

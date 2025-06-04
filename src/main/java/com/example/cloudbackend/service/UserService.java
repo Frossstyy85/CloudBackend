@@ -39,8 +39,8 @@ public class UserService {
     }
 
     private User handleFirstTimeLogin(OAuth2Info info) {
+        log.info("first time login detected");
         User user = getOrCreateUser(info);
-        System.out.println("hello");
         return linkExternalAccount(user, info);
     }
 
@@ -50,17 +50,18 @@ public class UserService {
     }
 
     private User linkExternalAccount(User user, OAuth2Info info) {
+        log.info("linking external account");
         OAuth2Account newAccount = new OAuth2Account(info.email(), info.provider(), info.providerId(), user);
         user.linkOAuthAccount(newAccount);
         return saveUser(user);
     }
 
     public Optional<User> findByEmail(String email) {
+        log.info("finding by email");
         return userRepository.findByEmail(email);
     }
 
     public User saveUser(User user) {
-        log.info("Saving user to database: {}", user);
         return userRepository.save(user);
     }
 }

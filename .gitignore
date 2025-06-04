@@ -8,6 +8,8 @@ koppa.properties
 /logs
 HELP.md
 .DS_Store
+app.logs
+
 
 ### STS ###
 .apt_generated

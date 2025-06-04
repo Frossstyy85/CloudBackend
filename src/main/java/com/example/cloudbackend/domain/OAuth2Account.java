@@ -2,8 +2,12 @@ package com.example.cloudbackend.domain;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class OAuth2Account {
+
+    public OAuth2Account(){}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -11,18 +15,20 @@ public class OAuth2Account {
     private String email;
 
     @Enumerated(EnumType.STRING)
-
     private Provider provider;
-    private String providerId;
 
-    public User getUser() {
-        return user;
-    }
+    private String providerId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    public OAuth2Account(){}
+    public User getUser(){
+        return user;
+    }
+
+    public Provider getProvider(){
+        return provider;
+    }
 
     public OAuth2Account(String email, Provider provider, String providerId, User user) {
         this.email = email;
@@ -30,32 +36,5 @@ public class OAuth2Account {
         this.providerId = providerId;
         this.user = user;
     }
-
-    public Provider getProvider() {
-        return provider;
-    }
-
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    @Override
-    public String toString() {
-        return "OAuth2Account{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", provider=" + provider +
-                ", providerId='" + providerId + '\'' +
-                ", user=" + user +
-                '}';
-    }
-
-
-
 
 }

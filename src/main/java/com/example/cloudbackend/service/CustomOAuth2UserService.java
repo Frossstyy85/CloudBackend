@@ -46,7 +46,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String providerId = oAuth2User.getAttribute("id").toString();
 
         OAuth2Info info = new OAuth2Info(name, email, provider, providerId);
+
         User user = userService.findByInfo(info);
+
+        System.out.println(user);
 
         return oAuth2User;
     }
