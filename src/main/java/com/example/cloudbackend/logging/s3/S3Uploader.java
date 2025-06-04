@@ -1,11 +1,8 @@
-package com.example.cloudbackend.logging.aws.s3;
+package com.example.cloudbackend.logging.s3;
 
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -20,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Component
+@Profile("prod")
 public class S3Uploader {
 
     @Value("${aws.bucket.name}")
@@ -30,7 +28,6 @@ public class S3Uploader {
     public S3Uploader(S3Client s3Client) {
         this.s3Client = s3Client;
     }
-
 
     public void upload(){
 

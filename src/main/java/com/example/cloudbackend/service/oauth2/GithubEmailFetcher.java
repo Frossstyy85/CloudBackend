@@ -29,7 +29,7 @@ public class GithubEmailFetcher {
         return (String) emails.stream()
                 .findFirst()
                 .map(map -> map.get("email"))
-                .orElse(null);
+                .orElse(null);  
     }
 
 

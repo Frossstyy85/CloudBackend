@@ -1,63 +1,22 @@
 package com.example.cloudbackend.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@Data
 public class User {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
     private String email;
-
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private final List<OAuth2Account> linkedAccounts = new ArrayList<>();
-
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
-
-    public User linkOAuthAccount(OAuth2Account newAccount) {
-        boolean alreadyLinked = linkedAccounts.stream()
-                .anyMatch(account -> account.getProvider().equals(newAccount.getProvider()));
-        if (!alreadyLinked) {
-            linkedAccounts.add(newAccount);
-        }
-        return this;
-    }
-
-    @Deprecated
-    public User unlinkOAuthAccount(Provider provider) {
-        Iterator<OAuth2Account> iterator = linkedAccounts.iterator();
-        while (iterator.hasNext()) {
-            var account = iterator.next();
-            if (account.getProvider().equals(provider)) {
-                iterator.remove();
-                break;
-            }
-        }
-        return this;
-    }
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
 
 }

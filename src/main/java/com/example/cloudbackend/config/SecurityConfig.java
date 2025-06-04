@@ -1,4 +1,4 @@
-package com.example.cloudbackend.config.security;
+package com.example.cloudbackend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
