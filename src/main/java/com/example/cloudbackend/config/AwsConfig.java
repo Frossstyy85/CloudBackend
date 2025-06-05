@@ -18,13 +18,4 @@ public class AwsConfig {
                 .build();
     }
 
-    @Bean
-    public CloudWatchLogsClient cloudWatchClient(){
-        return CloudWatchLogsClient.builder()
-                .region(Region.EU_NORTH_1)
-                .build();
-    }
-
-
-
 }

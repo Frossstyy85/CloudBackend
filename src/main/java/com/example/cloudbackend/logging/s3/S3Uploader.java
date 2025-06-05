@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +30,7 @@ public class S3Uploader {
 
     public void upload(){
 
-        String fileName = "logs/log_" + LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".log";
+        String fileName = "logs/app-" + LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".log";
         log.info(fileName);
 
         Path filePath = Paths.get(fileName);
@@ -53,9 +52,6 @@ public class S3Uploader {
         } catch (RuntimeException e) {
             log.error("S3 upload failed for {}", fileName, e);
         }
-
-
-
     }
 
 

@@ -13,7 +13,6 @@ import software.amazon.awssdk.services.cloudwatchlogs.model.*;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
-
 import java.util.List;
 
 @SpringBootTest
@@ -22,15 +21,6 @@ public class AwsIntegrationTest {
 
     @Autowired
     private S3Client s3Client;
-
-    @Autowired
-    private CloudWatchLogsClient cloudWatchClient;
-
-    @Value("${aws.cloudwatch.log.group}")
-    private String logGroupName;
-
-    @Value("${aws.cloudwatch.log.stream}")
-    private String logStreamName;
 
     @Value("${aws.bucket.name}")
     private String bucketName;
@@ -46,35 +36,5 @@ public class AwsIntegrationTest {
                 .extracting(Bucket::name)
                 .contains(bucketName);
     }
-
-
-
-    @Test
-    public void cloudWatchTest() {
-        assertThat(cloudWatchClient).isNotNull();
-
-        DescribeLogGroupsResponse response = cloudWatchClient.describeLogGroups();
-        List<LogGroup> logGroups = response.logGroups();
-
-        assertThat(logGroups)
-                .extracting(LogGroup::logGroupName)
-                .contains(logGroupName);
-
-        DescribeLogStreamsResponse streamsResponse = cloudWatchClient.describeLogStreams(
-                DescribeLogStreamsRequest.builder()
-                        .logGroupName(logGroupName)
-                        .logStreamNamePrefix(logStreamName)
-                        .build()
-        );
-        List<LogStream> logStreams = streamsResponse.logStreams();
-
-        assertThat(logStreams)
-                .extracting(LogStream::logStreamName)
-                .contains(logStreamName);
-    }
-
-
-
-
 
 }

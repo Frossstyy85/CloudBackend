@@ -6,8 +6,7 @@ public enum Provider {
 
     GITHUB,
     GOOGLE,
-    DISCORD,
-    LOCAL;
+    DISCORD;
 
     public static Provider fromString(String providerName) {
         if (providerName == null) {

@@ -15,6 +15,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String avatar;
     @Enumerated(EnumType.STRING)
     private Provider provider;
 

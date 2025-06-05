@@ -4,9 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Document</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .profile-link {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .profile-link:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
 </head>
 <body>
-hello
-<a th:href="@{/profile}">Profile</a>
+
+
+<div th:fragment="content" class="content">
+    <a class="profile-link" th:href="@{/profile}">Go to Profile</a>
+</div>
+
+
 </body>
 </html>

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginLogger {
 
-    private static final Logger logger = LogManager.getLogger("Login");
+    private static final Logger logger = LogManager.getLogger("login");
 
     @EventListener
     public void logLogin(AuthenticationSuccessEvent event){
-        logger.info("User {} logged in", event.getAuthentication().getName());
+        logger.info("{} logged in", event.getAuthentication().getName());
     }
 
 
