@@ -19,7 +19,7 @@
             <aws.sdk.version>2.31.57</aws.sdk.version>
         </properties>
         <dependencies>
-            
+
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
@@ -95,7 +95,7 @@
         </dependencies>
 
     <build>
-        <finalName>application</finalName>
+        <finalName>cloudApp</finalName>
 
         <plugins>
             <plugin>
