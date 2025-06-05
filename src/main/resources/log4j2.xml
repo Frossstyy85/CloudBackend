@@ -10,7 +10,7 @@
                      filePattern="logs/app-%d{yyyy-MM-dd,Europe/Stockholm}.log">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %msg%n"/>
             <Policies>
-   §
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
             </Policies>
             <DefaultRolloverStrategy max="7"/>
         </RollingFile>
@@ -21,7 +21,7 @@
             <AppenderRef ref="Console"/>
         </Root>
         <Logger name="login" level="info" additivity="false">
-            <Appender-ref ref="LogFile"/>
+            <AppenderRef ref="LogFile"/>
         </Logger>
     </Loggers>
 

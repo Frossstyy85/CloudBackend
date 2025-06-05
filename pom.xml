@@ -19,19 +19,7 @@
             <aws.sdk.version>2.31.57</aws.sdk.version>
         </properties>
         <dependencies>
-
-            <dependency>
-                <groupId>software.amazon.awssdk</groupId>
-                <artifactId>cloudwatchlogs</artifactId>
-                <version>${aws.sdk.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
+            
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
@@ -107,7 +95,7 @@
         </dependencies>
 
     <build>
-        <finalName>cloudApp</finalName>
+        <finalName>application</finalName>
 
         <plugins>
             <plugin>

@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Component
-@Profile("prod")
+@Profile({"prod","test"})
 public class S3Uploader {
 
     @Value("${aws.bucket.name}")
@@ -52,6 +52,8 @@ public class S3Uploader {
         } catch (RuntimeException e) {
             log.error("S3 upload failed for {}", fileName, e);
         }
+
+
     }
 
 

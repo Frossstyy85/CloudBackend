@@ -1,1 +1,1 @@
-web: java -jar cloudApp.jar
+web: java -jar cloudApp.jar --spring.profiles.active=prod
