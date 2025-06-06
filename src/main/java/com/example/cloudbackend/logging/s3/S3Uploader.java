@@ -27,16 +27,18 @@ public class S3Uploader {
     public S3Uploader(S3Client s3Client) {
         this.s3Client = s3Client;
     }
+    
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void upload(){
 
-        String fileName = "logs/app-" + LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".log";
-        log.info(fileName);
+        String filePath = "logs/app-" + LocalDate.now().minusDays(1).format(formatter) + ".log";
+        log.info(filePath);
 
-        Path filePath = Paths.get(fileName);
+        Path path = Paths.get(filePath);
 
-        if (!Files.exists(filePath)) {
-            log.warn("No log file found {}", fileName);
+        if (!Files.exists(path)) {
+            log.warn("No log file found {}", filePath);
             return;
         }
 
@@ -46,11 +48,11 @@ public class S3Uploader {
                     .key("log_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + ".log")
                     .build();
 
-            s3Client.putObject(request, RequestBody.fromFile(filePath));
-            log.info("Uploaded {} to S3", fileName);
+            s3Client.putObject(request, RequestBody.fromFile(path));
+            log.info("Uploaded {} to S3", filePath);
 
         } catch (RuntimeException e) {
-            log.error("S3 upload failed for {}", fileName, e);
+            log.error("S3 upload failed for {}", filePath, e);
         }
 
 
